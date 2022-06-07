@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 
+import { Button } from '@rmwc/button';
+
 function App() {
   return (
     <div className="App">
@@ -8,6 +10,9 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <p>
+          <Button label="button" raised />
         </p>
         <a
           className="App-link"
