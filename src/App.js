@@ -13,6 +13,7 @@ function App() {
         </p>
         <p>
           <Button label="button" raised />
+          <Button label="button" raised />
         </p>
         <a
           className="App-link"
