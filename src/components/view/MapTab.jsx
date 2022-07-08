@@ -4,7 +4,9 @@ import { Typography } from '@rmwc/typography';
 
 function MapTab() {
   return (
-    <Typography use="body1">This is the map tab</Typography>
+    <div className="block">
+      <Typography use="body1">This is the map tab</Typography>
+    </div>
   );
 }
 

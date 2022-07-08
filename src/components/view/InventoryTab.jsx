@@ -6,7 +6,7 @@ import { getInventory } from '../model/Inventory';
 
 function InventoryTab() {
   return (
-    <>
+    <div className="block">
       <Typography use="headline6" className="tab-header">i have:</Typography>
       {Object.entries(getInventory()).map(([key, value]) => (
         <Typography use="body2">
@@ -17,7 +17,7 @@ function InventoryTab() {
           x
         </Typography>
       ))}
-    </>
+    </div>
 
   );
 }
