@@ -7,8 +7,9 @@ import { TabBar, Tab } from '@rmwc/tabs';
 import RoomTab from './view/RoomTab';
 import InventoryTab from './view/InventoryTab';
 import MapTab from './view/MapTab';
+import ActionLogView from './view/ActionLogView';
 
-const tabs = [<RoomTab />, <InventoryTab />, <MapTab />];
+const tabs = [<InventoryTab />, <MapTab />];
 
 function App() {
   const [activeTab, setActiveTab] = React.useState(0);
@@ -26,13 +27,28 @@ function App() {
         <div className="container-inner">
           <Typography use="headline4" className="headline4">a way out</Typography>
 
-          <TabBar onActivate={(e) => setActiveTab(e.detail.index)}>
-            <Tab>Room</Tab>
-            <Tab>Inventory</Tab>
-            <Tab>Map</Tab>
-          </TabBar>
+          <div className="container-blocks">
+            <div className="divisor-vertical" />
 
-          {activeTabView}
+            <ActionLogView />
+
+            <div className="divisor-vertical" />
+
+            <RoomTab />
+
+            <div className="divisor-vertical" />
+
+            <div className="container-tabs">
+              <TabBar onActivate={(e) => setActiveTab(e.detail.index)}>
+                <Tab>Inventory</Tab>
+                <Tab>Map</Tab>
+              </TabBar>
+
+              {activeTabView}
+            </div>
+
+            <div className="divisor-vertical" />
+          </div>
         </div>
       </div>
     </ThemeProvider>
