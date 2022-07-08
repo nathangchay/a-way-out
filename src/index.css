@@ -10,7 +10,7 @@
 
 .container-inner {
   width: 100vw;
-  max-width: 500px;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
 }
@@ -20,6 +20,24 @@
   flex-direction: row;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.container-blocks {
+  display: flex;
+  flex-direction: row;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  margin: 0 15px 0 15px;
+}
+
+.divisor-vertical {
+  height: 100%;
+  width: 2px;
+  background-color: white;
 }
 
 .headline4, .tab-header {
