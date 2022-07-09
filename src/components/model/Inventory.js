@@ -1,18 +1,23 @@
-const inventory = {
-  key: 0,
-  coin: 10,
-};
+import { createSlice } from '@reduxjs/toolkit';
 
-function getInventory() {
-  return inventory;
-}
+const Inventory = createSlice({
+  name: 'inventory',
+  initialState: {
+    key: 0,
+    coin: 10,
+  },
+  reducers: {
+    addToInventory: (state, action) => {
+      const { item, quantity } = action.payload;
 
-function addToInventory(item, amount) {
-  if (!inventory[item]) {
-    inventory[item] = amount;
-  } else {
-    inventory[item] += amount;
-  }
-}
+      if (!state[item]) {
+        return { ...state, [item]: quantity };
+      }
 
-export { getInventory, addToInventory };
+      return { ...state, [item]: state[item] + quantity };
+    },
+  },
+});
+
+export const { addToInventory } = Inventory.actions;
+export default Inventory.reducer;
