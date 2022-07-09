@@ -1,14 +1,14 @@
 import React from 'react';
-
+import { useSelector } from 'react-redux';
 import { Typography } from '@rmwc/typography';
 
-import { getActions } from '../model/ActionLog';
-
 function ActionLogView() {
+  const actionLog = useSelector((state) => state.actionLog.log);
+
   return (
     <div className="block">
       <Typography use="headline6" className="tab-header">my actions:</Typography>
-      {getActions().map((action) => (
+      {actionLog.map((action) => (
         <Typography use="caption">{action}</Typography>
       ))}
     </div>
