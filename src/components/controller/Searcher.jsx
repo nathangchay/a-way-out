@@ -1,15 +1,19 @@
 import React from 'react';
 
+import { useDispatch } from 'react-redux';
 import { Typography } from '@rmwc/typography';
 import { Button } from '@rmwc/button';
 import { LinearProgress } from '@rmwc/linear-progress';
 
 import { addToInventory } from '../model/Inventory';
+import { addItemFound } from '../model/ActionLog';
 
 function Searcher({
   name, duration, reward, rewardAmount,
 }) {
   let progress = 0;
+
+  const dispatch = useDispatch();
 
   const [progressState, setProgressState] = React.useState(progress);
   const [disabled, setdisabled] = React.useState(false);
@@ -20,6 +24,9 @@ function Searcher({
 
       progress = 0;
       setProgressState(0);
+
+      dispatch(addToInventory({ item: reward, quantity: rewardAmount }));
+      dispatch(addItemFound({ item: reward, quantity: rewardAmount }));
     } else {
       setTimeout(searchLoop, 1000);
       progress += 1 / duration;
@@ -29,8 +36,6 @@ function Searcher({
   };
 
   const onButtonClick = () => {
-    addToInventory(reward, rewardAmount);
-
     setdisabled(true);
     searchLoop();
   };
