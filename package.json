@@ -6,13 +6,16 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "@rmwc/button": "^8.0.0",
+    "@rmwc/dialog": "^8.0.0",
     "@rmwc/linear-progress": "^8.0.0",
+    "@rmwc/snackbar": "^8.0.0",
     "@rmwc/tabs": "^8.0.0",
     "@rmwc/theme": "^8.0.0",
     "@rmwc/typography": "^8.0.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "firebase": "^9.9.0",
     "gh-pages": "^4.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -37,7 +40,8 @@
     ],
     "rules": {
       "linebreak-style": "off",
-      "react/prop-types": "off"
+      "react/prop-types": "off",
+      "no-console": "off"
     }
   },
   "browserslist": {
