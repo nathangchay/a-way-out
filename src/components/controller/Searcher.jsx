@@ -6,7 +6,7 @@ import { Button } from '@rmwc/button';
 import { LinearProgress } from '@rmwc/linear-progress';
 
 import { addToInventory } from '../model/Inventory';
-import { addItemFound } from '../model/ActionLog';
+import { addAction } from '../model/ActionLog';
 
 function Searcher({
   name, duration, reward, rewardAmount,
@@ -26,7 +26,7 @@ function Searcher({
       setProgressState(0);
 
       dispatch(addToInventory({ item: reward, quantity: rewardAmount }));
-      dispatch(addItemFound({ item: reward, quantity: rewardAmount }));
+      dispatch(addAction({ newAction: `found ${rewardAmount}x ${reward}` }));
     } else {
       setTimeout(searchLoop, 1000);
       progress += 1 / duration;
@@ -43,7 +43,7 @@ function Searcher({
   return (
     <div className="container-searcher">
       <Typography use="body2" style={{ minWidth: '20%' }}>{name}</Typography>
-      <Button raised disabled={disabled} label="search" style={{ margin: '0 10px 0 10px' }} onClick={onButtonClick} />
+      <Button raised disabled={disabled} label="search" style={{ margin: '0 10px 0 10px', minWidth: 85 }} onClick={onButtonClick} />
       <LinearProgress closed={!disabled} progress={progressState} />
     </div>
   );
