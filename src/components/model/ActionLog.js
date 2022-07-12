@@ -1,22 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const MAX_LENGTH = 15;
+
 const ActionLog = createSlice({
   name: 'actionLog',
-  initialState: {
-    log: [
-      'test1',
-      'test2',
-      'test3',
-    ],
-  },
+  initialState: [],
   reducers: {
-    addItemFound: (state, action) => {
-      const { item, quantity } = action.payload;
+    addAction: (state, action) => {
+      const { newAction } = action.payload;
 
-      state.log.push(`found ${quantity} ${item}(s)`);
+      if (state.length > MAX_LENGTH) {
+        state.pop();
+      }
+
+      state.unshift(newAction);
+    },
+    replaceActionLog: (_, action) => {
+      const { newState } = action.payload;
+
+      return newState;
     },
   },
 });
 
-export const { addItemFound } = ActionLog.actions;
+export const { addAction, replaceActionLog } = ActionLog.actions;
 export default ActionLog.reducer;
