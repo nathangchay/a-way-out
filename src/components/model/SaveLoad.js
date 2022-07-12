@@ -3,7 +3,7 @@ import {
   getFirestore, doc, setDoc, getDoc,
 } from 'firebase/firestore';
 import {
-  getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged,
+  getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -21,16 +21,34 @@ const provider = new GoogleAuthProvider();
 const db = getFirestore();
 const auth = getAuth();
 
+function getCurrentDateTime() {
+  const currentDate = new Date();
+
+  const date = currentDate.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  const month = (currentDate.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  const year = currentDate.getFullYear();
+  const hours = currentDate.getHours().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  const minutes = currentDate.getMinutes().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+  const seconds = currentDate.getSeconds().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false });
+
+  const formattedDate = `${date}/${month}/${year} @ ${hours}:${minutes}:${seconds}`;
+
+  return formattedDate;
+}
+
 async function saveData(data) {
+  const lastSaved = getCurrentDateTime();
+
   try {
     await setDoc(doc(db, 'users', auth.currentUser.email), {
-      data,
+      ...data,
+      lastSaved,
     });
   } catch (error) {
     return `error during save: ${error.code}`;
   }
 
-  return 'save success!';
+  return { msg: 'save success!', lastSaved };
 }
 
 async function loadData() {
@@ -46,11 +64,27 @@ async function loadData() {
     return `error during load: no save data found for ${auth.currentUser.email}`;
   }
 
-  return { msg: 'load success!', loadedDoc };
+  return { msg: 'load success!', ...loadedDoc.data() };
 }
 
-function signIn() {
+async function getLastSaved() {
+  let lastSaved = 'never';
+
+  await loadData().then((res) => {
+    if (typeof (res) !== 'string') {
+      lastSaved = res.lastSaved;
+    }
+  });
+
+  return lastSaved;
+}
+
+function login() {
   return signInWithPopup(auth, provider);
+}
+
+function logout() {
+  return signOut(auth);
 }
 
 function getUser() {
@@ -62,5 +96,5 @@ function onAuthUpdate(callback) {
 }
 
 export {
-  saveData, loadData, signIn, getUser, onAuthUpdate,
+  saveData, loadData, getLastSaved, login, logout, getUser, onAuthUpdate,
 };
