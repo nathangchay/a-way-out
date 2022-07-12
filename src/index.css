@@ -34,6 +34,17 @@
   margin: 5px 0 5px auto;
 }
 
+.save-load-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.save-load-text-container:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .save-load-buttons-container {
   display: flex;
   flex-direction: row;
