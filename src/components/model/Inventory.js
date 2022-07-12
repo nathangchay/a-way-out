@@ -2,10 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const Inventory = createSlice({
   name: 'inventory',
-  initialState: {
-    key: 0,
-    coin: 10,
-  },
+  initialState: {},
   reducers: {
     addToInventory: (state, action) => {
       const { item, quantity } = action.payload;
@@ -16,8 +13,13 @@ const Inventory = createSlice({
 
       return { ...state, [item]: state[item] + quantity };
     },
+    replaceInventory: (_, action) => {
+      const { newState } = action.payload;
+
+      return newState;
+    },
   },
 });
 
-export const { addToInventory } = Inventory.actions;
+export const { addToInventory, replaceInventory } = Inventory.actions;
 export default Inventory.reducer;
