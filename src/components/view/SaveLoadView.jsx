@@ -19,10 +19,11 @@ function SaveLoadView() {
 
   const [currentUserEmail, setCurrentUserEmail] = useState('');
   const [lastSaved, setLastSaved] = useState('');
-  const [confirmLoginOpen, setConfirmLoginOpen] = useState(false);
-  const [confirmLogoutOpen, setConfirmLogoutOpen] = useState(false);
-  const [confirmLoadOpen, setConfirmLoadOpen] = useState(false);
-  const [confirmSaveOpen, setConfirmSaveOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState('');
+  const [dialogContent, setDialogContent] = useState('');
+  const [dialogAcceptFunc, setDialogAcceptFunc] = useState(() => {});
+  const [dialogAcceptText, setDialogAcceptText] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -93,19 +94,35 @@ function SaveLoadView() {
       return;
     }
 
+    setDialogTitle('are you sure?');
+
     if (action === 's') {
-      setConfirmSaveOpen(true);
+      setDialogContent('this will overwrite the progress you have stored on the server');
+      setDialogAcceptFunc(() => attemptSave);
+      setDialogAcceptText('save');
     } else {
-      setConfirmLoadOpen(true);
+      setDialogContent('this will overwrite your current progress');
+      setDialogAcceptFunc(() => attemptLoad);
+      setDialogAcceptText('load');
     }
+
+    setDialogOpen(true);
   };
 
   const onSaveLoadTextClick = () => {
     if (!getUser()) {
-      setConfirmLoginOpen(true);
+      setDialogTitle('please log in');
+      setDialogContent('in order to save or load your data, you must log in with a google account');
+      setDialogAcceptFunc(() => attemptLogin);
+      setDialogAcceptText('log in');
     } else {
-      setConfirmLogoutOpen(true);
+      setDialogTitle('log out');
+      setDialogContent('are you sure you would like to log out? unsaved progress will be lost');
+      setDialogAcceptFunc(() => attemptLogout);
+      setDialogAcceptText('log out');
     }
+
+    setDialogOpen(true);
   };
 
   useEffect(() => {
@@ -140,47 +157,12 @@ function SaveLoadView() {
 
       {currentUserEmail !== '' ? saveLoadButtons : null}
 
-      <Dialog open={confirmLoginOpen} onClose={() => setConfirmLoginOpen(false)}>
-        <DialogTitle>please log in</DialogTitle>
-        <DialogContent>
-          in order to save or load your data, you must log in with a google account
-        </DialogContent>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <DialogTitle>{dialogTitle}</DialogTitle>
+        <DialogContent>{dialogContent}</DialogContent>
         <DialogActions>
           <DialogButton action="close" isDefaultAction style={{ color: '#282c34' }}>cancel</DialogButton>
-          <DialogButton raised action="accept" onClick={attemptLogin} style={{ backgroundColor: '#282c34', color: 'white' }}>log in</DialogButton>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={confirmLogoutOpen} onClose={() => setConfirmLogoutOpen(false)}>
-        <DialogTitle>log out</DialogTitle>
-        <DialogContent>
-          are you sure you would like to log out? unsaved progress will be lost
-        </DialogContent>
-        <DialogActions>
-          <DialogButton action="close" isDefaultAction style={{ color: '#282c34' }}>cancel</DialogButton>
-          <DialogButton raised action="accept" onClick={attemptLogout} style={{ backgroundColor: '#282c34', color: 'white' }}>log out</DialogButton>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={confirmSaveOpen} onClose={() => setConfirmSaveOpen(false)}>
-        <DialogTitle>are you sure?</DialogTitle>
-        <DialogContent>
-          this will overwrite the progress you have stored on the server
-        </DialogContent>
-        <DialogActions>
-          <DialogButton action="close" isDefaultAction style={{ color: '#282c34' }}>cancel</DialogButton>
-          <DialogButton raised action="accept" onClick={attemptSave} style={{ backgroundColor: '#282c34', color: 'white' }}>save</DialogButton>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={confirmLoadOpen} onClose={() => setConfirmLoadOpen(false)}>
-        <DialogTitle>are you sure?</DialogTitle>
-        <DialogContent>
-          this will overwrite your current progress
-        </DialogContent>
-        <DialogActions>
-          <DialogButton action="close" isDefaultAction style={{ color: '#282c34' }}>cancel</DialogButton>
-          <DialogButton raised action="accept" onClick={attemptLoad} style={{ backgroundColor: '#282c34', color: 'white' }}>load</DialogButton>
+          <DialogButton raised action="accept" onClick={dialogAcceptFunc} style={{ backgroundColor: '#282c34', color: 'white' }}>{dialogAcceptText}</DialogButton>
         </DialogActions>
       </Dialog>
 
