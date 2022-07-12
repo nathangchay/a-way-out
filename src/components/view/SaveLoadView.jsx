@@ -8,7 +8,7 @@ import { Snackbar } from '@rmwc/snackbar';
 import { Typography } from '@rmwc/typography';
 
 import {
-  saveData, loadData, signIn, getUser, onAuthUpdate,
+  saveData, loadData, getLastSaved, login, logout, getUser, onAuthUpdate,
 } from '../model/SaveLoad';
 import { replaceActionLog } from '../model/ActionLog';
 import { replaceInventory } from '../model/Inventory';
@@ -18,8 +18,11 @@ function SaveLoadView() {
   const dispatch = useDispatch();
 
   const [currentUserEmail, setCurrentUserEmail] = useState('');
-  const [confirmSignInOpen, setConfirmSignInOpen] = useState(false);
+  const [lastSaved, setLastSaved] = useState('');
+  const [confirmLoginOpen, setConfirmLoginOpen] = useState(false);
+  const [confirmLogoutOpen, setConfirmLogoutOpen] = useState(false);
   const [confirmLoadOpen, setConfirmLoadOpen] = useState(false);
+  const [confirmSaveOpen, setConfirmSaveOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -28,7 +31,13 @@ function SaveLoadView() {
     setSnackbarOpen(true);
 
     saveData(data).then((res) => {
-      setSnackbarMessage(res);
+      if (typeof (res) === 'string') {
+        setSnackbarMessage(res);
+      } else {
+        setLastSaved(res.lastSaved);
+        setSnackbarMessage(res.msg);
+      }
+
       setSnackbarOpen(true);
     });
   };
@@ -40,42 +49,62 @@ function SaveLoadView() {
     loadData().then((res) => {
       if (typeof (res) === 'string') {
         setSnackbarMessage(res);
-        setSnackbarOpen(true);
       } else {
-        const loadedData = res.loadedDoc.data().data;
-
         setSnackbarMessage(res.msg);
-        setSnackbarOpen(true);
 
-        dispatch(replaceActionLog({ newState: loadedData.actionLog }));
-        dispatch(replaceInventory({ newState: loadedData.inventory }));
+        dispatch(replaceActionLog({ newState: res.actionLog }));
+        dispatch(replaceInventory({ newState: res.inventory }));
       }
+
+      setSnackbarOpen(true);
     });
   };
 
-  const attemptSignIn = () => {
-    signIn()
+  const attemptLogin = () => {
+    login()
       .then((res) => {
         const { email } = res.user;
 
-        setSnackbarMessage(`successfully signed in as ${email}`);
+        setSnackbarMessage(`successfully signed in as ${email}!`);
         setSnackbarOpen(true);
 
         setCurrentUserEmail(email);
       })
       .catch((error) => {
-        setSnackbarMessage(`error during sign in: ${error.code}`);
+        setSnackbarMessage(`error during login: ${error.code}`);
         setSnackbarOpen(true);
       });
   };
 
-  const onSaveLoadClick = (action) => {
+  const attemptLogout = () => {
+    logout()
+      .then(() => {
+        setSnackbarMessage('successfully logged out!');
+        setSnackbarOpen(true);
+      })
+      .catch((error) => {
+        setSnackbarMessage(`error during logout: ${error.code}`);
+        setSnackbarOpen(true);
+      });
+  };
+
+  const onSaveLoadButtonClick = (action) => {
     if (!getUser()) {
-      setConfirmSignInOpen(true);
-    } else if (action === 's') {
-      attemptSave();
+      return;
+    }
+
+    if (action === 's') {
+      setConfirmSaveOpen(true);
     } else {
       setConfirmLoadOpen(true);
+    }
+  };
+
+  const onSaveLoadTextClick = () => {
+    if (!getUser()) {
+      setConfirmLoginOpen(true);
+    } else {
+      setConfirmLogoutOpen(true);
     }
   };
 
@@ -83,32 +112,64 @@ function SaveLoadView() {
     onAuthUpdate(() => {
       const user = getUser();
 
-      console.log('auth update');
-
       if (user) {
         setCurrentUserEmail(user.email);
       } else {
         setCurrentUserEmail('');
       }
+
+      getLastSaved().then((res) => {
+        setLastSaved(res);
+      });
     });
-  });
+  }, []);
+
+  const saveLoadButtons = (
+    <div className="save-load-buttons-container">
+      <Button raised label="save" onClick={() => onSaveLoadButtonClick('s')} />
+      <Button raised label="load" style={{ marginLeft: 10 }} onClick={() => onSaveLoadButtonClick('l')} />
+    </div>
+  );
 
   return (
     <div className="save-load-container">
-      <Typography use="caption">{currentUserEmail !== '' ? `logged in as ${currentUserEmail}` : 'not logged in'}</Typography>
-      <div className="save-load-buttons-container">
-        <Button raised label="save" onClick={() => onSaveLoadClick('s')} />
-        <Button raised label="load" style={{ marginLeft: 10 }} onClick={() => onSaveLoadClick('l')} />
-      </div>
+      <a href className="save-load-text-container" onClick={onSaveLoadTextClick}>
+        <Typography use="caption">{currentUserEmail !== '' ? `logged in as ${currentUserEmail}` : 'not logged in'}</Typography>
+        <Typography use="caption">{`last saved: ${lastSaved === '' ? 'never' : lastSaved}`}</Typography>
+      </a>
 
-      <Dialog open={confirmSignInOpen} onClose={() => setConfirmSignInOpen(false)}>
-        <DialogTitle>please sign in</DialogTitle>
+      {currentUserEmail !== '' ? saveLoadButtons : null}
+
+      <Dialog open={confirmLoginOpen} onClose={() => setConfirmLoginOpen(false)}>
+        <DialogTitle>please log in</DialogTitle>
         <DialogContent>
-          in order to save or load your data, you must sign in with a google account
+          in order to save or load your data, you must log in with a google account
         </DialogContent>
         <DialogActions>
           <DialogButton action="close" isDefaultAction style={{ color: '#282c34' }}>cancel</DialogButton>
-          <DialogButton raised action="accept" onClick={attemptSignIn} style={{ backgroundColor: '#282c34', color: 'white' }}>sign in</DialogButton>
+          <DialogButton raised action="accept" onClick={attemptLogin} style={{ backgroundColor: '#282c34', color: 'white' }}>log in</DialogButton>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={confirmLogoutOpen} onClose={() => setConfirmLogoutOpen(false)}>
+        <DialogTitle>log out</DialogTitle>
+        <DialogContent>
+          are you sure you would like to log out? unsaved progress will be lost
+        </DialogContent>
+        <DialogActions>
+          <DialogButton action="close" isDefaultAction style={{ color: '#282c34' }}>cancel</DialogButton>
+          <DialogButton raised action="accept" onClick={attemptLogout} style={{ backgroundColor: '#282c34', color: 'white' }}>log out</DialogButton>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={confirmSaveOpen} onClose={() => setConfirmSaveOpen(false)}>
+        <DialogTitle>are you sure?</DialogTitle>
+        <DialogContent>
+          this will overwrite the progress you have stored on the server
+        </DialogContent>
+        <DialogActions>
+          <DialogButton action="close" isDefaultAction style={{ color: '#282c34' }}>cancel</DialogButton>
+          <DialogButton raised action="accept" onClick={attemptSave} style={{ backgroundColor: '#282c34', color: 'white' }}>save</DialogButton>
         </DialogActions>
       </Dialog>
 
