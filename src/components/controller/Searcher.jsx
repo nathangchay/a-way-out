@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { Typography } from '@rmwc/typography';
@@ -7,16 +7,18 @@ import { LinearProgress } from '@rmwc/linear-progress';
 
 import { addToInventory } from '../model/Inventory';
 import { addAction } from '../model/ActionLog';
+import { decrementSearchesLeft } from '../model/Map';
 
 function Searcher({
-  name, duration, reward, rewardAmount,
+  name, duration, reward, rewardQuantity, searchesLeft, roomName,
 }) {
   let progress = 0;
 
   const dispatch = useDispatch();
 
-  const [progressState, setProgressState] = React.useState(progress);
-  const [disabled, setdisabled] = React.useState(false);
+  const [progressState, setProgressState] = useState(progress);
+  const [disabled, setdisabled] = useState(false);
+  const [maxSearches, setMaxSearches] = useState(searchesLeft);
 
   const searchLoop = () => {
     if (progress > 1 - (1 / duration)) {
@@ -25,8 +27,13 @@ function Searcher({
       progress = 0;
       setProgressState(0);
 
-      dispatch(addToInventory({ item: reward, quantity: rewardAmount }));
-      dispatch(addAction({ newAction: `found ${rewardAmount}x ${reward}` }));
+      if (maxSearches > 0) {
+        dispatch(addToInventory({ item: reward, quantity: rewardQuantity }));
+        dispatch(addAction({ newAction: `searched a ${name} and found ${rewardQuantity}x ${reward}` }));
+        dispatch(decrementSearchesLeft({ roomName, itemName: name }));
+      } else {
+        dispatch(addAction({ newAction: `searched a ${name} and found nothing :(` }));
+      }
     } else {
       setTimeout(searchLoop, 1000);
       progress += 1 / duration;
@@ -37,6 +44,7 @@ function Searcher({
 
   const onButtonClick = () => {
     setdisabled(true);
+    setMaxSearches(maxSearches - 1);
     searchLoop();
   };
 
