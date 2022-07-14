@@ -1,19 +1,35 @@
 import React from 'react';
-
+import { useSelector } from 'react-redux';
 import { Typography } from '@rmwc/typography';
 
 import Searcher from '../controller/Searcher';
+import { getTiles } from '../model/Map';
 
 function RoomTab() {
+  const mapData = useSelector((state) => state.map);
+
+  const getItems = () => {
+    const tiles = getTiles();
+    const { rooms, playerCoordinate } = mapData;
+    const { x, y } = playerCoordinate;
+    const roomName = tiles[y][x];
+
+    return Object.entries(rooms[roomName].items).map(([key, value]) => (
+      <Searcher
+        name={key}
+        duration={value.duration}
+        reward={value.reward}
+        rewardQuantity={value.rewardQuantity}
+        searchesLeft={value.searchesLeft}
+        roomName={roomName}
+      />
+    ));
+  };
+
   return (
     <div className="block">
       <Typography use="headline6" className="tab-header">in this room: </Typography>
-      <Searcher name="dirt pile" duration={1} reward="key" rewardAmount={1} />
-      <Searcher name="dirt pile" duration={2} reward="bread" rewardAmount={2} />
-      <Searcher name="dirt pile" duration={3} reward="coin" rewardAmount={10} />
-      <Searcher name="dirt pile" duration={4} reward="coin" rewardAmount={10} />
-      <Searcher name="cabinet" duration={5} reward="coin" rewardAmount={10} />
-      <Searcher name="bed" duration={10} reward="coin" rewardAmount={10} />
+      { getItems() }
     </div>
   );
 }
