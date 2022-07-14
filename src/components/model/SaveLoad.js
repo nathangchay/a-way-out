@@ -45,6 +45,7 @@ async function saveData(data) {
       lastSaved,
     });
   } catch (error) {
+    console.log(error);
     return `error during save: ${error.code}`;
   }
 
