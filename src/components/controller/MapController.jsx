@@ -11,25 +11,20 @@ function MapController() {
 
   const getMapTile = (tile, i, j) => {
     const roomData = mapData.rooms[tile];
-    const { isExplored, isAccessible } = roomData;
+    const { isExplored, isExplorable } = roomData;
     const { x, y } = mapData.playerCoordinate;
 
     const showX = (x === j && y === i);
 
-    let explorable = false;
     let directionFromPlayer = '';
 
     if (x === j && y === i + 1) {
-      explorable = true;
       directionFromPlayer = 'north';
     } else if (x === j - 1 && y === i) {
-      explorable = true;
       directionFromPlayer = 'east';
     } else if (x === j && y === i - 1) {
-      explorable = true;
       directionFromPlayer = 'south';
     } else if (x === j + 1 && y === i) {
-      explorable = true;
       directionFromPlayer = 'west';
     }
 
@@ -37,22 +32,19 @@ function MapController() {
 
     if (isExplored) {
       color = 'white';
+    } else if (isExplorable) {
+      color = '#939599';
     }
 
     const onTileClick = () => {
-      if (explorable) {
+      if (isExplorable && directionFromPlayer !== '') {
         dispatch(movePlayer({ i, j }));
-
-        if (isAccessible) {
-          dispatch(addAction({ newAction: `headed ${directionFromPlayer}` }));
-        } else {
-          dispatch(addAction({ newAction: 'attempted to run into a wall' }));
-        }
+        dispatch(addAction({ newAction: `headed ${directionFromPlayer}` }));
       }
     };
 
     return (
-      <a href className={explorable ? 'map-tile explorable' : 'map-tile'} style={{ backgroundColor: color }} onClick={onTileClick}>
+      <a href className={isExplorable && directionFromPlayer !== '' ? 'map-tile explorable' : 'map-tile'} style={{ backgroundColor: color }} onClick={onTileClick}>
         { showX ? <Typography use="caption" style={{ color: '#282c34', fontWeight: 'bold' }}>x</Typography> : null }
       </a>
     );
