@@ -8,28 +8,30 @@ import { getTiles } from '../model/Map';
 function RoomTab() {
   const mapData = useSelector((state) => state.map);
 
-  const getItems = () => {
+  const getSearchables = () => {
     const tiles = getTiles();
     const { rooms, playerCoordinate } = mapData;
     const { x, y } = playerCoordinate;
     const roomName = tiles[y][x];
+    const room = rooms[roomName];
 
-    return Object.entries(rooms[roomName].items).map(([key, value]) => (
+    const searchables = Object.entries(room.searchables).map(([key, value]) => (
       <Searcher
         name={key}
+        visible={!value.inDark || (value.inDark && room.isLit)}
         duration={value.duration}
-        reward={value.reward}
-        rewardQuantity={value.rewardQuantity}
-        searchesLeft={value.searchesLeft}
+        rewards={value.rewards}
         roomName={roomName}
       />
     ));
+
+    return searchables;
   };
 
   return (
     <div className="block">
       <Typography use="headline6" className="tab-header">in this room: </Typography>
-      { getItems() }
+      { getSearchables() }
     </div>
   );
 }
