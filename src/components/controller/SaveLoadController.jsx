@@ -12,6 +12,7 @@ import {
 } from '../model/SaveLoad';
 import { replaceActionLog } from '../model/ActionLog';
 import { replaceInventory } from '../model/Inventory';
+import { replaceMap } from '../model/Map';
 
 function SaveLoadController() {
   const data = useSelector((state) => state);
@@ -55,6 +56,7 @@ function SaveLoadController() {
 
         dispatch(replaceActionLog({ newState: res.actionLog }));
         dispatch(replaceInventory({ newState: res.inventory }));
+        dispatch(replaceMap({ newState: res.map }));
       }
 
       setSnackbarOpen(true);
