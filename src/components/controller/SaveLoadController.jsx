@@ -13,7 +13,7 @@ import {
 import { replaceActionLog } from '../model/ActionLog';
 import { replaceInventory } from '../model/Inventory';
 
-function SaveLoadView() {
+function SaveLoadController() {
   const data = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -176,4 +176,4 @@ function SaveLoadView() {
   );
 }
 
-export default SaveLoadView;
+export default SaveLoadController;

@@ -8,7 +8,7 @@ import RoomTab from './view/RoomTab';
 import InventoryTab from './view/InventoryTab';
 import MapTab from './view/MapTab';
 import ActionLogView from './view/ActionLogView';
-import SaveLoadView from './view/SaveLoadView';
+import SaveLoadController from './controller/SaveLoadController';
 
 const tabs = [<InventoryTab />, <MapTab />];
 
@@ -28,7 +28,7 @@ function App() {
         <div className="container-inner">
           <div className="header">
             <Typography use="headline4" className="headline4">a way out</Typography>
-            <SaveLoadView />
+            <SaveLoadController />
           </div>
 
           <div className="container-blocks">
