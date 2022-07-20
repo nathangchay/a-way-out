@@ -36,7 +36,7 @@ function getCurrentDateTime() {
   return formattedDate;
 }
 
-async function saveData(data) {
+async function saveData(data, auto) {
   const lastSaved = getCurrentDateTime();
 
   try {
@@ -50,7 +50,7 @@ async function saveData(data) {
     return `Error during save: ${error.code}`;
   }
 
-  return { msg: 'Save success!', lastSaved };
+  return { msg: `${auto ? 'Autosave' : 'Save'} success!`, lastSaved };
 }
 
 async function loadData() {
@@ -66,7 +66,7 @@ async function loadData() {
     return `Error during load: No save data found for ${auth.currentUser.email}`;
   }
 
-  return { msg: 'Load success!', ...loadedDoc.data() };
+  return { msg: 'Load success!', data: loadedDoc.data() };
 }
 
 async function getLastSaved() {
@@ -74,7 +74,7 @@ async function getLastSaved() {
 
   await loadData().then((res) => {
     if (typeof (res) !== 'string') {
-      lastSaved = res.lastSaved;
+      lastSaved = res.data.lastSaved;
     }
   });
 
