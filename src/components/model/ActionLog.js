@@ -18,10 +18,12 @@ const ActionLog = createSlice({
 
       return newLogger.log(state);
     },
-    replaceActionLog: (_, action) => {
+  },
+  extraReducers: {
+    'inventory/replaceData': (_, action) => {
       const { newState } = action.payload;
 
-      return newState;
+      return newState.actionLog;
     },
   },
 });

@@ -15,6 +15,13 @@ const Settings = createSlice({
       }
     },
   },
+  extraReducers: {
+    'inventory/replaceData': (_, action) => {
+      const { newState } = action.payload;
+
+      return newState.settings;
+    },
+  },
 });
 
 export const { toggleSetting } = Settings.actions;
