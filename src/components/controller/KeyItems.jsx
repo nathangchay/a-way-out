@@ -22,10 +22,10 @@ function Flashlight() {
   const onButtonClick = () => {
     if (chargesLeft > 0) {
       dispatch(_useKeyItem({ itemAction: 'flashlight/use' }));
-      dispatch(addAction({ newAction: 'Used my flashlight to light the room' }));
+      dispatch(addAction({ newAction: 'Used my flashlight to light the room', type: 'info' }));
     } else {
       dispatch(_useKeyItem({ itemAction: 'flashlight/recharge' }));
-      dispatch(addAction({ newAction: 'Used 1x battery to recharge my flashlight' }));
+      dispatch(addAction({ newAction: 'Used 1x battery to recharge my flashlight', type: 'info' }));
     }
   };
 
