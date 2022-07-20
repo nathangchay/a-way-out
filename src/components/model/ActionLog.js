@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import Logger from './Logger';
+
 const MAX_LENGTH = 15;
 
 const ActionLog = createSlice({
@@ -7,12 +9,14 @@ const ActionLog = createSlice({
   initialState: [],
   reducers: {
     addAction: (state, action) => {
-      const { newAction } = action.payload;
+      const { newAction, type } = action.payload;
+      const newLogger = new Logger(type, newAction);
+
       if (state.length > MAX_LENGTH) {
         state.pop();
       }
 
-      state.unshift(newAction);
+      return newLogger.log(state);
     },
     replaceActionLog: (_, action) => {
       const { newState } = action.payload;
