@@ -12,6 +12,7 @@ import { decrementSearchesLeft } from '../model/Map';
 function Searcher({
   name, visible, duration, rewards, roomName,
 }) {
+  const empty = Object.keys(rewards).length === 0;
   let progress = 0;
 
   const dispatch = useDispatch();
@@ -32,25 +33,21 @@ function Searcher({
       progress = 0;
       setProgressState(0);
 
-      if (Object.keys(rewards).length !== 0) {
-        const rewardName = getRandomReward();
-        const rewardType = rewards[rewardName].type;
+      const rewardName = getRandomReward();
+      const rewardType = rewards[rewardName].type;
 
-        let rewardQuantity;
+      let rewardQuantity;
 
-        if (rewardType === 'r') {
-          rewardQuantity = rewards[rewardName].quantity;
-          dispatch(addResource({ item: rewardName, quantity: rewardQuantity }));
-        } else {
-          rewardQuantity = 1;
-          dispatch(addKeyItem({ item: rewardName, data: rewards[rewardName].data }));
-        }
-
-        dispatch(addAction({ newAction: `Searched a ${name} and found ${rewardQuantity}x ${rewardName}` }));
-        dispatch(decrementSearchesLeft({ roomName, searchableName: name, rewardName }));
+      if (rewardType === 'r') {
+        rewardQuantity = rewards[rewardName].quantity;
+        dispatch(addResource({ item: rewardName, quantity: rewardQuantity }));
       } else {
-        dispatch(addAction({ newAction: `Searched a ${name} and found nothing :(` }));
+        rewardQuantity = 1;
+        dispatch(addKeyItem({ item: rewardName, data: rewards[rewardName].data }));
       }
+
+      dispatch(addAction({ newAction: `Searched a ${name} and found ${rewardQuantity}x ${rewardName}` }));
+      dispatch(decrementSearchesLeft({ roomName, searchableName: name, rewardName }));
     } else {
       setTimeout(searchLoop, 1000);
       progress += 1 / duration;
@@ -68,7 +65,7 @@ function Searcher({
     return (
       <div className="container-searcher">
         <Typography use="body2" style={{ minWidth: '20%' }}>{name}</Typography>
-        <Button raised disabled={disabled} label="search" style={{ margin: '0 10px 0 10px', minWidth: 85 }} onClick={onButtonClick} />
+        <Button raised disabled={disabled || empty} label={empty ? 'empty' : 'search'} style={{ margin: '0 10px 0 10px', minWidth: 85 }} onClick={onButtonClick} />
         <LinearProgress closed={!disabled} progress={progressState} />
       </div>
     );

@@ -7,8 +7,11 @@
     "@reduxjs/toolkit": "^1.8.3",
     "@rmwc/button": "^8.0.0",
     "@rmwc/dialog": "^8.0.0",
+    "@rmwc/icon": "^8.0.0",
+    "@rmwc/icon-button": "^8.0.0",
     "@rmwc/linear-progress": "^8.0.0",
     "@rmwc/snackbar": "^8.0.0",
+    "@rmwc/switch": "^8.0.0",
     "@rmwc/tabs": "^8.0.0",
     "@rmwc/theme": "^8.0.0",
     "@rmwc/typography": "^8.0.0",
@@ -22,6 +25,7 @@
     "react-redux": "^8.0.2",
     "react-scripts": "5.0.1",
     "rmwc": "^8.0.0",
+    "tslib": "^2.4.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
