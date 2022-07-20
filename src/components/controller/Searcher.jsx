@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { useDispatch } from 'react-redux';
 import { Typography } from '@rmwc/typography';
 import { Button } from '@rmwc/button';
@@ -65,8 +64,14 @@ function Searcher({
     return (
       <div className="container-searcher">
         <Typography use="body2" style={{ minWidth: '20%' }}>{name}</Typography>
-        <Button raised disabled={disabled || empty} label={empty ? 'empty' : 'search'} style={{ margin: '0 10px 0 10px', minWidth: 85 }} onClick={onButtonClick} />
-        <LinearProgress closed={!disabled} progress={progressState} />
+        <Button
+          raised
+          disabled={disabled || empty}
+          label={empty ? 'empty' : 'search'}
+          style={{ margin: '0 10px 0 10px', minWidth: 85 }}
+          onClick={onButtonClick}
+        />
+        <LinearProgress theme="secondary" closed={!disabled} progress={progressState} />
       </div>
     );
   }
