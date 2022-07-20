@@ -6,7 +6,7 @@ import MapController from '../controller/MapController';
 function MapTab() {
   return (
     <div className="block">
-      <Typography use="headline6" className="tab-header">my surroundings:</Typography>
+      <Typography use="headline6" className="tab-header">Surroundings:</Typography>
       <MapController />
     </div>
   );

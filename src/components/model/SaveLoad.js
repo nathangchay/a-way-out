@@ -46,10 +46,10 @@ async function saveData(data) {
     });
   } catch (error) {
     console.log(error);
-    return `error during save: ${error.code}`;
+    return `Error during save: ${error.code}`;
   }
 
-  return { msg: 'save success!', lastSaved };
+  return { msg: 'Save success!', lastSaved };
 }
 
 async function loadData() {
@@ -58,18 +58,18 @@ async function loadData() {
   try {
     loadedDoc = await getDoc(doc(db, 'users', auth.currentUser.email));
   } catch (error) {
-    return `error during load: ${error.code}`;
+    return `Error during load: ${error.code}`;
   }
 
   if (!loadedDoc.exists()) {
-    return `error during load: no save data found for ${auth.currentUser.email}`;
+    return `Error during load: No save data found for ${auth.currentUser.email}`;
   }
 
-  return { msg: 'load success!', ...loadedDoc.data() };
+  return { msg: 'Load success!', ...loadedDoc.data() };
 }
 
 async function getLastSaved() {
-  let lastSaved = 'never';
+  let lastSaved = 'Never';
 
   await loadData().then((res) => {
     if (typeof (res) !== 'string') {

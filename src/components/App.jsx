@@ -27,7 +27,7 @@ function App() {
       <div className="container-outer">
         <div className="container-inner">
           <div className="header">
-            <Typography use="headline4" className="headline4">a way out</Typography>
+            <Typography use="headline4" className="headline4">A Way Out</Typography>
             <SaveLoadController />
           </div>
 

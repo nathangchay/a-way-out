@@ -8,7 +8,6 @@ const ActionLog = createSlice({
   reducers: {
     addAction: (state, action) => {
       const { newAction } = action.payload;
-
       if (state.length > MAX_LENGTH) {
         state.pop();
       }

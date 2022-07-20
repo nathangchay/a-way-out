@@ -30,7 +30,7 @@ function RoomTab() {
 
   return (
     <div className="block">
-      <Typography use="headline6" className="tab-header">in this room: </Typography>
+      <Typography use="headline6" className="tab-header">Room Contents: </Typography>
       { getSearchables() }
     </div>
   );

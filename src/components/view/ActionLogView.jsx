@@ -7,7 +7,7 @@ function ActionLogView() {
 
   return (
     <div className="block">
-      <Typography use="headline6" className="tab-header">my actions:</Typography>
+      <Typography use="headline6" className="tab-header">Action Log:</Typography>
       {actionLog.map((action, i) => (
         <Typography use="caption" style={{ opacity: 1 / (i + 1) }}>{action}</Typography>
       ))}

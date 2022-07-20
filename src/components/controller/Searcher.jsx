@@ -46,10 +46,10 @@ function Searcher({
           dispatch(addKeyItem({ item: rewardName, data: rewards[rewardName].data }));
         }
 
-        dispatch(addAction({ newAction: `searched a ${name} and found ${rewardQuantity}x ${rewardName}` }));
+        dispatch(addAction({ newAction: `Searched a ${name} and found ${rewardQuantity}x ${rewardName}` }));
         dispatch(decrementSearchesLeft({ roomName, searchableName: name, rewardName }));
       } else {
-        dispatch(addAction({ newAction: `searched a ${name} and found nothing :(` }));
+        dispatch(addAction({ newAction: `Searched a ${name} and found nothing :(` }));
       }
     } else {
       setTimeout(searchLoop, 1000);

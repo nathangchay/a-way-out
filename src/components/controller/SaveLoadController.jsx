@@ -29,7 +29,7 @@ function SaveLoadController() {
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const attemptSave = () => {
-    setSnackbarMessage('attempting to save data...');
+    setSnackbarMessage('Attempting to save data...');
     setSnackbarOpen(true);
 
     saveData(data).then((res) => {
@@ -45,7 +45,7 @@ function SaveLoadController() {
   };
 
   const attemptLoad = () => {
-    setSnackbarMessage('attempting to load data...');
+    setSnackbarMessage('Attempting to load data...');
     setSnackbarOpen(true);
 
     loadData().then((res) => {
@@ -68,13 +68,13 @@ function SaveLoadController() {
       .then((res) => {
         const { email } = res.user;
 
-        setSnackbarMessage(`successfully signed in as ${email}!`);
+        setSnackbarMessage(`Successfully signed in as ${email}!`);
         setSnackbarOpen(true);
 
         setCurrentUserEmail(email);
       })
       .catch((error) => {
-        setSnackbarMessage(`error during login: ${error.code}`);
+        setSnackbarMessage(`Error during login: ${error.code}`);
         setSnackbarOpen(true);
       });
   };
@@ -82,11 +82,11 @@ function SaveLoadController() {
   const attemptLogout = () => {
     logout()
       .then(() => {
-        setSnackbarMessage('successfully logged out!');
+        setSnackbarMessage('Successfully logged out!');
         setSnackbarOpen(true);
       })
       .catch((error) => {
-        setSnackbarMessage(`error during logout: ${error.code}`);
+        setSnackbarMessage(`Error during logout: ${error.code}`);
         setSnackbarOpen(true);
       });
   };
@@ -96,16 +96,16 @@ function SaveLoadController() {
       return;
     }
 
-    setDialogTitle('are you sure?');
+    setDialogTitle('Are you sure?');
 
     if (action === 's') {
-      setDialogContent('this will overwrite the progress you have stored on the server');
+      setDialogContent('This will overwrite the progress you have stored on the server');
       setDialogAcceptFunc(() => attemptSave);
-      setDialogAcceptText('save');
+      setDialogAcceptText('Save');
     } else {
-      setDialogContent('this will overwrite your current progress');
+      setDialogContent('This will overwrite your current progress');
       setDialogAcceptFunc(() => attemptLoad);
-      setDialogAcceptText('load');
+      setDialogAcceptText('Load');
     }
 
     setDialogOpen(true);
@@ -113,15 +113,15 @@ function SaveLoadController() {
 
   const onSaveLoadTextClick = () => {
     if (!getUser()) {
-      setDialogTitle('please log in');
-      setDialogContent('in order to save or load your data, you must log in with a google account');
+      setDialogTitle('Please log in');
+      setDialogContent('In order to save or load your data, you must log in with a Google account');
       setDialogAcceptFunc(() => attemptLogin);
-      setDialogAcceptText('log in');
+      setDialogAcceptText('Log in');
     } else {
-      setDialogTitle('log out');
-      setDialogContent('are you sure you would like to log out? unsaved progress will be lost');
+      setDialogTitle('Log out');
+      setDialogContent('Are you sure you would like to log out? Unsaved progress will be lost');
       setDialogAcceptFunc(() => attemptLogout);
-      setDialogAcceptText('log out');
+      setDialogAcceptText('Log out');
     }
 
     setDialogOpen(true);
@@ -145,16 +145,16 @@ function SaveLoadController() {
 
   const saveLoadButtons = (
     <div className="save-load-buttons-container">
-      <Button raised label="save" onClick={() => onSaveLoadButtonClick('s')} />
-      <Button raised label="load" style={{ marginLeft: 10 }} onClick={() => onSaveLoadButtonClick('l')} />
+      <Button raised label="Save" onClick={() => onSaveLoadButtonClick('s')} />
+      <Button raised label="Load" style={{ marginLeft: 10 }} onClick={() => onSaveLoadButtonClick('l')} />
     </div>
   );
 
   return (
     <div className="save-load-container">
       <a href className="save-load-text-container" onClick={onSaveLoadTextClick}>
-        <Typography use="caption">{currentUserEmail !== '' ? `logged in as ${currentUserEmail}` : 'not logged in'}</Typography>
-        <Typography use="caption">{`last saved: ${lastSaved === '' ? 'never' : lastSaved}`}</Typography>
+        <Typography use="caption">{currentUserEmail !== '' ? `Logged in as ${currentUserEmail}` : 'Not logged in'}</Typography>
+        <Typography use="caption">{`Last saved: ${lastSaved === '' ? 'Never' : lastSaved}`}</Typography>
       </a>
 
       {currentUserEmail !== '' ? saveLoadButtons : null}
@@ -163,7 +163,7 @@ function SaveLoadController() {
         <DialogTitle>{dialogTitle}</DialogTitle>
         <DialogContent>{dialogContent}</DialogContent>
         <DialogActions>
-          <DialogButton action="close" isDefaultAction style={{ color: '#282c34' }}>cancel</DialogButton>
+          <DialogButton action="close" isDefaultAction style={{ color: '#282c34' }}>Cancel</DialogButton>
           <DialogButton raised action="accept" onClick={dialogAcceptFunc} style={{ backgroundColor: '#282c34', color: 'white' }}>{dialogAcceptText}</DialogButton>
         </DialogActions>
       </Dialog>

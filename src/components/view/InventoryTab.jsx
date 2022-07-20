@@ -13,11 +13,11 @@ function InventoryTab() {
 
   return (
     <div className="block">
-      <Typography use="headline6" className="tab-header">key items:</Typography>
+      <Typography use="headline6" className="tab-header">Key Items:</Typography>
       {Object.keys(inventory.keyItems).map((key) => (
         keyItemsElements[key]
       ))}
-      <Typography use="headline6" className="tab-header">resources:</Typography>
+      <Typography use="headline6" className="tab-header">Resources:</Typography>
       {Object.entries(inventory.resources).map(([key, value]) => (
         <Typography use="body2">
           {key}
