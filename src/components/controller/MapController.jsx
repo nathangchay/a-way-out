@@ -7,6 +7,7 @@ import { addAction } from '../model/ActionLog';
 
 function MapController() {
   const mapData = useSelector((state) => state.map);
+  const darkTheme = useSelector((state) => state.settings.darkTheme);
   const dispatch = useDispatch();
 
   const getMapTile = (tile, i, j) => {
@@ -29,12 +30,22 @@ function MapController() {
       directionFromPlayer = 'west';
     }
 
-    let color = '';
+    let backgroundColor = '';
+    let border = '';
+    let opacity = 1;
 
     if (isExplored) {
-      color = 'white';
+      backgroundColor = 'white';
+
+      if (!darkTheme) {
+        border = 'solid 1px #282c34';
+      }
     } else if (isExplorable) {
-      color = '#939599';
+      backgroundColor = '#939599';
+
+      if (!darkTheme) {
+        opacity = 0.5;
+      }
     }
 
     const onTileClick = () => {
@@ -45,7 +56,12 @@ function MapController() {
     };
 
     return (
-      <a href className={isExplorable && directionFromPlayer !== '' ? 'unselectable map-tile explorable' : 'unselectable map-tile'} style={{ backgroundColor: color }} onClick={onTileClick}>
+      <a
+        href
+        className={isExplorable && directionFromPlayer !== '' ? 'unselectable map-tile explorable' : 'unselectable map-tile'}
+        style={{ backgroundColor, border, opacity }}
+        onClick={onTileClick}
+      >
         { showX ? <Icon icon={{ icon: 'person', size: 'xsmall' }} style={{ color: '#282c34', zIndex: 1 }} /> : null }
         { showIcon ? (
           <Icon
