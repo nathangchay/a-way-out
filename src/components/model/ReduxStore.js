@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import InventoryReducer, { _useKeyItem } from './Inventory';
+import InventoryReducer from './Inventory';
 import ActionLogReducer from './ActionLog';
 import MapReducer from './Map';
 import SettingsReducer from './Settings';
@@ -13,7 +13,5 @@ const ReduxStore = configureStore({
     settings: SettingsReducer,
   },
 });
-
-ReduxStore.dispatch(_useKeyItem({}));
 
 export default ReduxStore;
