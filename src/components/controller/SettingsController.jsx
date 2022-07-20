@@ -26,8 +26,8 @@ function SettingsController() {
         <Dialog open={open} onClose={() => setOpen(false)}>
           <DialogTitle>Settings</DialogTitle>
           <DialogContent style={{ display: 'flex', flexDirection: 'column' }}>
-            <Switch label="Dark theme" checked={settings.darkTheme} onChange={() => onToggle('darkTheme')} style={{ marginTop: 20 }} />
-            <Switch label="Autosave" checked={settings.autosave} onChange={() => onToggle('autosave')} style={{ marginTop: 20 }} />
+            <Switch label="Dark theme" checked={settings.darkTheme} onChange={() => onToggle('darkTheme')} style={{ marginTop: 20, color: '#282c34' }} />
+            <Switch label="Autosave" checked={settings.autosave} onChange={() => onToggle('autosave')} style={{ marginTop: 20, color: '#282c34' }} />
           </DialogContent>
           <DialogActions>
             <DialogButton action="close">close</DialogButton>
