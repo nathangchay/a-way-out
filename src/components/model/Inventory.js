@@ -36,6 +36,10 @@ const Inventory = createSlice({
         if (resources.battery) {
           resources.battery -= 1;
           state.keyItems.flashlight.chargesLeft = 5;
+
+          if (resources.battery <= 0) {
+            delete resources.battery;
+          }
         }
       }
     },
