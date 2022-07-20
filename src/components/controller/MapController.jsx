@@ -40,7 +40,7 @@ function MapController() {
     const onTileClick = () => {
       if (isExplorable && directionFromPlayer !== '') {
         dispatch(movePlayer({ i, j }));
-        dispatch(addAction({ newAction: `Headed ${directionFromPlayer}` }));
+        dispatch(addAction({ newAction: `Headed ${directionFromPlayer}`, type: 'info' }));
       }
     };
 
