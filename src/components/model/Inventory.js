@@ -43,15 +43,15 @@ const Inventory = createSlice({
         }
       }
     },
-    replaceInventory: (_, action) => {
+    replaceData: (_, action) => {
       const { newState } = action.payload;
 
-      return newState;
+      return newState.inventory;
     },
   },
 });
 
 export const {
-  addResource, addKeyItem, _useKeyItem, replaceInventory,
+  addResource, addKeyItem, _useKeyItem, replaceData,
 } = Inventory.actions;
 export default Inventory.reducer;

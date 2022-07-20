@@ -10,9 +10,8 @@ import { Typography } from '@rmwc/typography';
 import {
   saveData, loadData, getLastSaved, login, logout, getUser, onAuthUpdate,
 } from '../model/SaveLoad';
-import { replaceActionLog } from '../model/ActionLog';
-import { replaceInventory } from '../model/Inventory';
-import { replaceMap } from '../model/Map';
+import { replaceData } from '../model/Inventory';
+import AutosaveController from './AutosaveController';
 
 function SaveLoadController() {
   const data = useSelector((state) => state);
@@ -28,11 +27,11 @@ function SaveLoadController() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const attemptSave = () => {
+  const attemptSave = (auto) => {
     setSnackbarMessage('Attempting to save data...');
     setSnackbarOpen(true);
 
-    saveData(data).then((res) => {
+    saveData(data, auto).then((res) => {
       if (typeof (res) === 'string') {
         setSnackbarMessage(res);
       } else {
@@ -53,10 +52,8 @@ function SaveLoadController() {
         setSnackbarMessage(res);
       } else {
         setSnackbarMessage(res.msg);
-
-        dispatch(replaceActionLog({ newState: res.actionLog }));
-        dispatch(replaceInventory({ newState: res.inventory }));
-        dispatch(replaceMap({ newState: res.map }));
+        console.log(res.data);
+        dispatch(replaceData({ newState: res.data }));
       }
 
       setSnackbarOpen(true);
@@ -100,7 +97,7 @@ function SaveLoadController() {
 
     if (action === 's') {
       setDialogContent('This will overwrite the progress you have stored on the server');
-      setDialogAcceptFunc(() => attemptSave);
+      setDialogAcceptFunc(() => attemptSave(false));
       setDialogAcceptText('Save');
     } else {
       setDialogContent('This will overwrite your current progress');
@@ -152,6 +149,8 @@ function SaveLoadController() {
 
   return (
     <div className="save-load-container">
+      {data.settings.autosave ? <AutosaveController callback={() => attemptSave(true)} /> : null}
+
       <a href className="save-load-text-container" onClick={onSaveLoadTextClick}>
         <Typography use="caption">{currentUserEmail !== '' ? `Logged in as ${currentUserEmail}` : 'Not logged in'}</Typography>
         <Typography use="caption">{`Last saved: ${lastSaved === '' ? 'Never' : lastSaved}`}</Typography>

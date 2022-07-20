@@ -140,11 +140,6 @@ const Map = createSlice({
         delete rooms[roomName].searchables[searchableName].rewards[rewardName];
       }
     },
-    replaceMap: (_, action) => {
-      const { newState } = action.payload;
-
-      return newState;
-    },
   },
   extraReducers: {
     'inventory/_useKeyItem': (state, action) => {
@@ -166,6 +161,11 @@ const Map = createSlice({
 
         rooms[tiles[y][x]].isLit = true;
       }
+    },
+    'inventory/replaceData': (_, action) => {
+      const { newState } = action.payload;
+
+      return newState.map;
     },
   },
 });
