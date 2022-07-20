@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Typography } from '@rmwc/typography';
+import { Icon } from '@rmwc/icon';
 
 import { getTiles, movePlayer } from '../model/Map';
 import { addAction } from '../model/ActionLog';
@@ -11,10 +11,11 @@ function MapController() {
 
   const getMapTile = (tile, i, j) => {
     const roomData = mapData.rooms[tile];
-    const { isExplored, isExplorable } = roomData;
+    const { isExplored, isExplorable, isLit } = roomData;
     const { x, y } = mapData.playerCoordinate;
 
     const showX = (x === j && y === i);
+    const showIcon = isLit;
 
     let directionFromPlayer = '';
 
@@ -44,8 +45,16 @@ function MapController() {
     };
 
     return (
-      <a href className={isExplorable && directionFromPlayer !== '' ? 'map-tile explorable' : 'map-tile'} style={{ backgroundColor: color }} onClick={onTileClick}>
-        { showX ? <Typography use="caption" style={{ color: '#282c34', fontWeight: 'bold' }}>x</Typography> : null }
+      <a href className={isExplorable && directionFromPlayer !== '' ? 'unselectable map-tile explorable' : 'unselectable map-tile'} style={{ backgroundColor: color }} onClick={onTileClick}>
+        { showX ? <Icon icon={{ icon: 'person', size: 'xsmall' }} style={{ color: '#282c34', zIndex: 1 }} /> : null }
+        { showIcon ? (
+          <Icon
+            icon={{ icon: 'light_mode', size: 'xsmall' }}
+            style={{
+              position: 'absolute', color: '#939599', opacity: 0.5, maxWidth: 50,
+            }}
+          />
+        ) : null }
       </a>
     );
   };
