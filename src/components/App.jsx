@@ -9,6 +9,7 @@ import InventoryTab from './view/InventoryTab';
 import MapTab from './view/MapTab';
 import ActionLogView from './view/ActionLogView';
 import SaveLoadController from './controller/SaveLoadController';
+import SettingsController from './controller/SettingsController';
 
 const tabs = [<InventoryTab />, <MapTab />];
 
@@ -29,6 +30,7 @@ function App() {
           <div className="header">
             <Typography use="headline4" className="headline4">A Way Out</Typography>
             <SaveLoadController />
+            <SettingsController />
           </div>
 
           <div className="container-blocks">
