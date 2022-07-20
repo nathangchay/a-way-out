@@ -46,7 +46,7 @@ function Searcher({
         dispatch(addKeyItem({ item: rewardName, data: rewards[rewardName].data }));
       }
 
-      dispatch(addAction({ newAction: `Searched a ${name} and found ${rewardQuantity}x ${rewardName}` }));
+      dispatch(addAction({ newAction: `Searched a ${name} and found ${rewardQuantity}x ${rewardName}`, type: 'info' }));
       dispatch(decrementSearchesLeft({ roomName, searchableName: name, rewardName }));
     } else {
       setTimeout(searchLoop, 1000);
