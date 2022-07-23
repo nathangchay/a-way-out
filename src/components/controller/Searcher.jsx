@@ -7,6 +7,7 @@ import { LinearProgress } from '@rmwc/linear-progress';
 import { addResource, addKeyItem } from '../model/Inventory';
 import { addAction } from '../model/ActionLog';
 import { decrementSearchesLeft } from '../model/Map';
+import { awardResearchPoints } from '../model/Research';
 
 function Searcher({
   name, visible, duration, rewards, roomName,
@@ -40,9 +41,11 @@ function Searcher({
       if (rewardType === 'r') {
         rewardQuantity = rewards[rewardName].quantity;
         dispatch(addResource({ item: rewardName, quantity: rewardQuantity }));
+        dispatch(awardResearchPoints({ amount: 5 }));
       } else {
         rewardQuantity = 1;
         dispatch(addKeyItem({ item: rewardName, data: rewards[rewardName].data }));
+        dispatch(awardResearchPoints({ amount: 10 }));
       }
 
       dispatch(addAction({ newAction: `Searched a ${name} and found ${rewardQuantity}x ${rewardName}`, type: 'info' }));
