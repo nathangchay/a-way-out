@@ -6,6 +6,7 @@ import { Button } from '@rmwc/button';
 import { _useKeyItem } from '../model/Inventory';
 import { addAction } from '../model/ActionLog';
 import { getTiles } from '../model/Map';
+import { awardResearchPoints } from '../model/Research';
 
 function Flashlight() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function Flashlight() {
     if (chargesLeft > 0) {
       dispatch(_useKeyItem({ itemAction: 'flashlight/use' }));
       dispatch(addAction({ newAction: 'Used my flashlight to light the room', type: 'info' }));
+      dispatch(awardResearchPoints({ amount: 5 }));
     } else {
       dispatch(_useKeyItem({ itemAction: 'flashlight/recharge' }));
       dispatch(addAction({ newAction: 'Used 1x battery to recharge my flashlight', type: 'info' }));
