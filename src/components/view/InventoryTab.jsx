@@ -11,22 +11,20 @@ const keyItemsElements = {
 function InventoryTab() {
   const inventory = useSelector((state) => state.inventory);
 
+  const keyItems = Object.keys(inventory.keyItems).map((key) => (
+    keyItemsElements[key]
+  ));
+
+  const resources = Object.entries(inventory.resources).map(([key, value]) => (
+    <Typography use="body2">{`${key[0].toUpperCase() + key.substring(1)}: ${value}x`}</Typography>
+  ));
+
   return (
     <div className="block">
-      <Typography use="headline6" className="tab-header">Key Items:</Typography>
-      {Object.keys(inventory.keyItems).map((key) => (
-        keyItemsElements[key]
-      ))}
+      <Typography use="headline6" className="tab-header">Key items:</Typography>
+      {keyItems}
       <Typography use="headline6" className="tab-header">Resources:</Typography>
-      {Object.entries(inventory.resources).map(([key, value]) => (
-        <Typography use="body2">
-          {key}
-          :
-          {' '}
-          {value}
-          x
-        </Typography>
-      ))}
+      {resources}
     </div>
 
   );
