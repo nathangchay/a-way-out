@@ -33,11 +33,7 @@ function Flashlight() {
     <div className="container-key-item">
       <div className="container-key-item-info">
         <Typography use="body2">Flashlight</Typography>
-        <Typography use="caption">
-          Charges left:
-          {' '}
-          {chargesLeft}
-        </Typography>
+        <Typography use="caption">{`Charges left: ${chargesLeft}`}</Typography>
       </div>
       <Button
         raised
