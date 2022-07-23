@@ -4,6 +4,7 @@ import InventoryReducer from './Inventory';
 import ActionLogReducer from './ActionLog';
 import MapReducer from './Map';
 import SettingsReducer from './Settings';
+import ResearchReducer from './Research';
 
 const ReduxStore = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const ReduxStore = configureStore({
     actionLog: ActionLogReducer,
     map: MapReducer,
     settings: SettingsReducer,
+    research: ResearchReducer,
   },
 });
 
