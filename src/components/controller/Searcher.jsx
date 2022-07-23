@@ -63,7 +63,7 @@ function Searcher({
   if (visible) {
     return (
       <div className="container-searcher">
-        <Typography use="body2" style={{ minWidth: '20%' }}>{name}</Typography>
+        <Typography use="body2" style={{ minWidth: '20%' }}>{name[0].toUpperCase() + name.substring(1)}</Typography>
         <Button
           raised
           disabled={disabled || empty}
