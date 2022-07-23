@@ -20,7 +20,15 @@
   margin-bottom: 10px;
 }
 
-.container-key-item-info {
+.container-upgrader {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: left;
+  margin-bottom: 10px;
+}
+
+.container-key-item-info, .container-upgrader-info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
