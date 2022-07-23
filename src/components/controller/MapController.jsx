@@ -4,6 +4,7 @@ import { Icon } from '@rmwc/icon';
 
 import { getTiles, movePlayer } from '../model/Map';
 import { addAction } from '../model/ActionLog';
+import { awardResearchPoints } from '../model/Research';
 
 function MapController() {
   const mapData = useSelector((state) => state.map);
@@ -52,6 +53,10 @@ function MapController() {
       if (isExplorable && directionFromPlayer !== '') {
         dispatch(movePlayer({ i, j }));
         dispatch(addAction({ newAction: `Headed ${directionFromPlayer}`, type: 'info' }));
+
+        if (!isExplored) {
+          dispatch(awardResearchPoints({ amount: 10 }));
+        }
       }
     };
 
