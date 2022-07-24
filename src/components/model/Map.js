@@ -82,7 +82,7 @@ const Map = createSlice({
               penny: {
                 type: 'r',
                 quantity: 1,
-                left: 100,
+                left: 3,
               },
             },
           },
@@ -110,7 +110,35 @@ const Map = createSlice({
         isExplored: false,
         isExplorable: false,
         isLit: false,
-        searchables: {},
+        searchables: {
+          bookshelf: {
+            duration: 2,
+            inDark: false,
+            rewards: {
+              key: {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+              paper: {
+                type: 'r',
+                quantity: 3,
+                left: 2,
+              },
+            },
+          },
+          'hidden compartment': {
+            duration: 10,
+            inDark: true,
+            rewards: {
+              'master key': {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+            },
+          },
+        },
       },
       room3: {
         isAccessible: true,
@@ -118,7 +146,52 @@ const Map = createSlice({
         isExplored: false,
         isExplorable: false,
         isLit: false,
-        searchables: {},
+        searchables: {
+          'red box': {
+            duration: 3,
+            inDark: false,
+            rewards: {
+              'small toy': {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+            },
+          },
+          'green box': {
+            duration: 3,
+            inDark: false,
+            rewards: {
+              'small toy': {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+            },
+          },
+          'blue box': {
+            duration: 3,
+            inDark: false,
+            rewards: {
+              'small toy': {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+            },
+          },
+          'black box': {
+            duration: 3,
+            inDark: true,
+            rewards: {
+              'stuffed rabbit': {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+            },
+          },
+        },
       },
       room4: {
         isAccessible: true,
@@ -126,7 +199,40 @@ const Map = createSlice({
         isExplored: false,
         isExplorable: false,
         isLit: false,
-        searchables: {},
+        searchables: {
+          bucket: {
+            duration: 2,
+            inDark: false,
+            rewards: {
+              screw: {
+                type: 'r',
+                quantity: 1,
+                left: 2,
+              },
+              nail: {
+                type: 'r',
+                quantity: 1,
+                left: 3,
+              },
+            },
+          },
+          'duffel bag': {
+            duration: 5,
+            inDark: true,
+            rewards: {
+              cloth: {
+                type: 'r',
+                quantity: 2,
+                left: 5,
+              },
+              penny: {
+                type: 'r',
+                quantity: 5,
+                left: 2,
+              },
+            },
+          },
+        },
       },
       room5: {
         isAccessible: true,
@@ -134,7 +240,30 @@ const Map = createSlice({
         isExplored: false,
         isExplorable: false,
         isLit: false,
-        searchables: {},
+        searchables: {
+          vent: {
+            duration: 5,
+            inDark: true,
+            rewards: {
+              key: {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+            },
+          },
+          cabinet: {
+            duration: 5,
+            inDark: false,
+            rewards: {
+              battery: {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+            },
+          },
+        },
       },
       room6: {
         isAccessible: true,
@@ -142,7 +271,24 @@ const Map = createSlice({
         isExplored: false,
         isExplorable: false,
         isLit: false,
-        searchables: {},
+        searchables: {
+          fridge: {
+            duration: 5,
+            inDark: false,
+            rewards: {
+              'soda bottle': {
+                type: 'r',
+                quantity: 1,
+                left: 3,
+              },
+              'moldy burger': {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+            },
+          },
+        },
       },
     },
   },
