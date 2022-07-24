@@ -12,6 +12,7 @@ function Flashlight() {
   const dispatch = useDispatch();
   const mapData = useSelector((state) => state.map);
   const inventory = useSelector((state) => state.inventory);
+  const flashlightCapacityLevel = useSelector((state) => state.research.keyItemUpgrades['flashlight capacity'].curLevel);
 
   const { chargesLeft } = inventory.keyItems.flashlight;
 
@@ -26,7 +27,7 @@ function Flashlight() {
       dispatch(addAction({ newAction: 'Used my flashlight to light the room', type: 'info' }));
       dispatch(awardResearchPoints({ amount: 5 }));
     } else {
-      dispatch(_useKeyItem({ itemAction: 'flashlight/recharge' }));
+      dispatch(_useKeyItem({ itemAction: 'flashlight/recharge', data: { maxCapacity: flashlightCapacityLevel * 5 } }));
       dispatch(addAction({ newAction: 'Used 1x battery to recharge my flashlight', type: 'info' }));
     }
   };
