@@ -86,6 +86,22 @@ const Map = createSlice({
               },
             },
           },
+          'computer desk': {
+            duration: 3,
+            inDark: true,
+            rewards: {
+              'metal blade': {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+              'granola bar': {
+                type: 'r',
+                quantity: 1,
+                left: 2,
+              },
+            },
+          },
         },
       },
       room2: {
