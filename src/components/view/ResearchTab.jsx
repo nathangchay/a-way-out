@@ -9,7 +9,7 @@ function ResearchTab() {
   const keyItems = useSelector((state) => state.inventory.keyItems);
 
   const getUpgrader = (key, value, type) => {
-    const { curLevel, costPerLevel } = value;
+    const { curLevel, costPerLevel, unlocked } = value;
 
     return (
       <Upgrader
@@ -18,12 +18,13 @@ function ResearchTab() {
         curLevel={curLevel}
         upgradeCost={costPerLevel[curLevel - 1]}
         maxed={curLevel === costPerLevel.length + 1}
+        unlocked={type === 'generalResearch' ? unlocked : true}
       />
     );
   };
 
   const generalResearch = Object.entries(research.generalResearch).map(([key, value]) => (
-    value.unlocked ? getUpgrader(key, value, 'generalResearch') : null
+    getUpgrader(key, value, 'generalResearch')
   ));
 
   const keyItemUpgrades = Object.entries(research.keyItemUpgrades).map(([key, value]) => (
