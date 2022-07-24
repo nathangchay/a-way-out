@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Typography } from '@rmwc/typography';
 import { Button } from '@rmwc/button';
 import { LinearProgress } from '@rmwc/linear-progress';
@@ -16,6 +16,7 @@ function Searcher({
   let progress = 0;
 
   const dispatch = useDispatch();
+  const searchSpeedLevel = useSelector((state) => state.research.generalResearch['search speed'].curLevel);
 
   const [progressState, setProgressState] = useState(progress);
   const [disabled, setdisabled] = useState(false);
@@ -51,7 +52,7 @@ function Searcher({
       dispatch(addAction({ newAction: `Searched a ${name} and found ${rewardQuantity}x ${rewardName}`, type: 'info' }));
       dispatch(decrementSearchesLeft({ roomName, searchableName: name, rewardName }));
     } else {
-      setTimeout(searchLoop, 1000);
+      setTimeout(searchLoop, 1000 - ((searchSpeedLevel - 1) * 200));
       progress += 1 / duration;
 
       setProgressState(progress);
