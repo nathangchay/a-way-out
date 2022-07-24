@@ -24,7 +24,7 @@ function Flashlight() {
   const onButtonClick = () => {
     if (chargesLeft > 0) {
       dispatch(_useKeyItem({ itemAction: 'flashlight/use' }));
-      dispatch(addAction({ newAction: 'Used my flashlight to light the room', type: 'info' }));
+      dispatch(addAction({ newAction: 'Used my flashlight to light the room (+5 research points)', type: 'info' }));
       dispatch(awardResearchPoints({ amount: 5 }));
     } else {
       dispatch(_useKeyItem({ itemAction: 'flashlight/recharge', data: { maxCapacity: flashlightCapacityLevel * 5 } }));
