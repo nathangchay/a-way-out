@@ -97,7 +97,7 @@ function SaveLoadController() {
 
     if (action === 's') {
       setDialogContent('This will overwrite the progress you have stored on the server');
-      setDialogAcceptFunc(() => attemptSave(false));
+      setDialogAcceptFunc(() => () => { attemptSave(false); });
       setDialogAcceptText('Save');
     } else {
       setDialogContent('This will overwrite your current progress');
