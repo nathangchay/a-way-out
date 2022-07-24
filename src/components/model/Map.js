@@ -127,7 +127,7 @@ const Map = createSlice({
               },
             },
           },
-          'hidden compartment': {
+          'hidden recess': {
             duration: 10,
             inDark: true,
             rewards: {
