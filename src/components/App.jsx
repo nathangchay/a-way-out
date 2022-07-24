@@ -7,11 +7,12 @@ import { useSelector } from 'react-redux';
 import RoomTab from './view/RoomTab';
 import InventoryTab from './view/InventoryTab';
 import MapTab from './view/MapTab';
+import ResearchTab from './view/ResearchTab';
 import ActionLogView from './view/ActionLogView';
 import SaveLoadController from './controller/SaveLoadController';
 import SettingsController from './controller/SettingsController';
 
-const tabs = [<InventoryTab />, <MapTab />];
+const tabs = [<InventoryTab />, <ResearchTab />, <MapTab />];
 
 function App() {
   const darkTheme = useSelector((state) => state.settings.darkTheme);
@@ -66,6 +67,7 @@ function App() {
               <div className="container-tabs">
                 <TabBar onActivate={(e) => setActiveTab(e.detail.index)}>
                   <Tab>Inventory</Tab>
+                  <Tab>Research</Tab>
                   <Tab>Map</Tab>
                 </TabBar>
 

@@ -24,7 +24,6 @@ const Map = createSlice({
         isExplorable: false,
         isLit: false,
         searchables: {},
-        litSearchables: {},
       },
       start: {
         isAccessible: true,
@@ -34,7 +33,7 @@ const Map = createSlice({
         isLit: false,
         searchables: {
           cabinet: {
-            duration: 1,
+            duration: 5,
             inDark: false,
             rewards: {
               flashlight: {
@@ -52,13 +51,13 @@ const Map = createSlice({
             },
           },
           'dirt pile': {
-            duration: 1,
+            duration: 2,
             inDark: true,
             rewards: {
               key: {
                 type: 'r',
                 quantity: 1,
-                left: 1,
+                left: 2,
               },
             },
           },
@@ -70,8 +69,24 @@ const Map = createSlice({
         isExplored: false,
         isExplorable: false,
         isLit: false,
-        searchables: {},
-        litSearchables: {},
+        searchables: {
+          locker: {
+            duration: 2,
+            inDark: false,
+            rewards: {
+              key: {
+                type: 'r',
+                quantity: 1,
+                left: 1,
+              },
+              penny: {
+                type: 'r',
+                quantity: 1,
+                left: 100,
+              },
+            },
+          },
+        },
       },
       room2: {
         isAccessible: true,
@@ -80,7 +95,6 @@ const Map = createSlice({
         isExplorable: false,
         isLit: false,
         searchables: {},
-        litSearchables: {},
       },
       room3: {
         isAccessible: true,
@@ -89,7 +103,6 @@ const Map = createSlice({
         isExplorable: false,
         isLit: false,
         searchables: {},
-        litSearchables: {},
       },
       room4: {
         isAccessible: true,
@@ -98,7 +111,6 @@ const Map = createSlice({
         isExplorable: false,
         isLit: false,
         searchables: {},
-        litSearchables: {},
       },
       room5: {
         isAccessible: true,
@@ -107,7 +119,6 @@ const Map = createSlice({
         isExplorable: false,
         isLit: false,
         searchables: {},
-        litSearchables: {},
       },
       room6: {
         isAccessible: true,
@@ -116,7 +127,6 @@ const Map = createSlice({
         isExplorable: false,
         isLit: false,
         searchables: {},
-        litSearchables: {},
       },
     },
   },
@@ -132,11 +142,11 @@ const Map = createSlice({
       const { rooms } = state;
       const { roomName, searchableName, rewardName } = action.payload;
 
-      let { left } = rooms[roomName].searchables[searchableName].rewards[rewardName];
+      const reward = rooms[roomName].searchables[searchableName].rewards[rewardName];
 
-      left -= 1;
+      reward.left -= 1;
 
-      if (left <= 0) {
+      if (reward.left <= 0) {
         delete rooms[roomName].searchables[searchableName].rewards[rewardName];
       }
     },

@@ -22,7 +22,7 @@ const Inventory = createSlice({
       state.keyItems[item] = data;
     },
     _useKeyItem: (state, action) => {
-      const { itemAction } = action.payload;
+      const { itemAction, data } = action.payload;
 
       if (itemAction === 'flashlight/use') {
         const { flashlight } = state.keyItems;
@@ -31,11 +31,12 @@ const Inventory = createSlice({
           flashlight.chargesLeft -= 1;
         }
       } else if (itemAction === 'flashlight/recharge') {
+        const { maxCapacity } = data;
         const { resources } = state;
 
         if (resources.battery) {
           resources.battery -= 1;
-          state.keyItems.flashlight.chargesLeft = 5;
+          state.keyItems.flashlight.chargesLeft = maxCapacity;
 
           if (resources.battery <= 0) {
             delete resources.battery;

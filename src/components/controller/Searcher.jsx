@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Typography } from '@rmwc/typography';
 import { Button } from '@rmwc/button';
 import { LinearProgress } from '@rmwc/linear-progress';
@@ -7,6 +7,7 @@ import { LinearProgress } from '@rmwc/linear-progress';
 import { addResource, addKeyItem } from '../model/Inventory';
 import { addAction } from '../model/ActionLog';
 import { decrementSearchesLeft } from '../model/Map';
+import { awardResearchPoints } from '../model/Research';
 
 function Searcher({
   name, visible, duration, rewards, roomName,
@@ -15,6 +16,7 @@ function Searcher({
   let progress = 0;
 
   const dispatch = useDispatch();
+  const searchSpeedLevel = useSelector((state) => state.research.generalResearch['search speed'].curLevel);
 
   const [progressState, setProgressState] = useState(progress);
   const [disabled, setdisabled] = useState(false);
@@ -40,15 +42,17 @@ function Searcher({
       if (rewardType === 'r') {
         rewardQuantity = rewards[rewardName].quantity;
         dispatch(addResource({ item: rewardName, quantity: rewardQuantity }));
+        dispatch(awardResearchPoints({ amount: 5 }));
       } else {
         rewardQuantity = 1;
         dispatch(addKeyItem({ item: rewardName, data: rewards[rewardName].data }));
+        dispatch(awardResearchPoints({ amount: 10 }));
       }
 
       dispatch(addAction({ newAction: `Searched a ${name} and found ${rewardQuantity}x ${rewardName}`, type: 'info' }));
       dispatch(decrementSearchesLeft({ roomName, searchableName: name, rewardName }));
     } else {
-      setTimeout(searchLoop, 1000);
+      setTimeout(searchLoop, 1000 - ((searchSpeedLevel - 1) * 200));
       progress += 1 / duration;
 
       setProgressState(progress);
@@ -63,7 +67,7 @@ function Searcher({
   if (visible) {
     return (
       <div className="container-searcher">
-        <Typography use="body2" style={{ minWidth: '20%' }}>{name}</Typography>
+        <Typography use="body2" style={{ minWidth: '20%' }}>{name[0].toUpperCase() + name.substring(1)}</Typography>
         <Button
           raised
           disabled={disabled || empty}
