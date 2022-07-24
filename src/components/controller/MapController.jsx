@@ -52,10 +52,12 @@ function MapController() {
     const onTileClick = () => {
       if (isExplorable && directionFromPlayer !== '') {
         dispatch(movePlayer({ i, j }));
-        dispatch(addAction({ newAction: `Headed ${directionFromPlayer}`, type: 'info' }));
 
         if (!isExplored) {
           dispatch(awardResearchPoints({ amount: 10 }));
+          dispatch(addAction({ newAction: `Headed ${directionFromPlayer} and discovered a new room (+10 research points)`, type: 'info' }));
+        } else {
+          dispatch(addAction({ newAction: `Headed ${directionFromPlayer}`, type: 'info' }));
         }
       }
     };

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const Research = createSlice({
   name: 'research',
   initialState: {
-    researchPoints: 1000,
+    researchPoints: 0,
     generalResearch: {
       'search speed': {
         unlocked: true,

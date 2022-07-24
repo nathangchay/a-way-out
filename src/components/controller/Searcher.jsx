@@ -38,18 +38,20 @@ function Searcher({
       const rewardType = rewards[rewardName].type;
 
       let rewardQuantity;
+      let points;
 
       if (rewardType === 'r') {
         rewardQuantity = rewards[rewardName].quantity;
         dispatch(addResource({ item: rewardName, quantity: rewardQuantity }));
-        dispatch(awardResearchPoints({ amount: 5 }));
+        points = 5;
       } else {
         rewardQuantity = 1;
         dispatch(addKeyItem({ item: rewardName, data: rewards[rewardName].data }));
-        dispatch(awardResearchPoints({ amount: 10 }));
+        points = 10;
       }
 
-      dispatch(addAction({ newAction: `Searched a ${name} and found ${rewardQuantity}x ${rewardName}`, type: 'info' }));
+      dispatch(awardResearchPoints({ amount: points }));
+      dispatch(addAction({ newAction: `Searched a ${name} and found ${rewardQuantity}x ${rewardName} (+${points} research points)`, type: 'info' }));
       dispatch(decrementSearchesLeft({ roomName, searchableName: name, rewardName }));
     } else {
       setTimeout(searchLoop, 1000 - ((searchSpeedLevel - 1) * 200));

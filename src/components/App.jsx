@@ -11,6 +11,7 @@ import ResearchTab from './view/ResearchTab';
 import ActionLogView from './view/ActionLogView';
 import SaveLoadController from './controller/SaveLoadController';
 import SettingsController from './controller/SettingsController';
+import Debug from './controller/Debug';
 
 const tabs = [<InventoryTab />, <ResearchTab />, <MapTab />];
 
@@ -46,6 +47,7 @@ function App() {
     >
       <Theme use={['background', 'onSecondary']} wrap>
         <div className="container-outer">
+          <Debug />
           <div className="container-inner">
             <div className="header">
               <Typography use="headline4" className="headline4">A Way Out</Typography>
